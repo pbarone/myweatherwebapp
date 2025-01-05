@@ -14,8 +14,24 @@
   }
 }
 
+@layer base {
+  a {
+    @apply text-blue-600 underline;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  
+  display: flex;
+  align-items: center; /* Vertical alignment */
+  justify-content: center; /* Horizontal alignment */
+}
+
+
+.custom-card {
+  width: 1320px;
+  height: 2868px;
 }
