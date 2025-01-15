@@ -1,4 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Provider } from "./_components/Provider";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,12 +21,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+
       <body className="items-center justify-center bg-gray-100 dark:bg-gray-900 text-white" >
-        <div className="grid h-screen w-full place-items-center bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black">
+        <Provider>
+          <div className=" grid h-screen w-full place-items-center bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black">
 
-          {children}
+            {children}
 
-        </div>
+          </div>
+        </Provider>
       </body>
     </html>
   );
