@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "next: dev",
+		"type": "npm",
+		"script": "dev",
+		"problemMatcher": [],
+		"isBackground": true,
+		"port": 3000
+	  }
+	]
+  }
+  
