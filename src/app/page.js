@@ -133,6 +133,7 @@ export default function Page({ params }) {
     if (weatherData) {
 
         const city = cityData?.LocalizedName;
+        const parentCity = cityData?.ParentCity?.LocalizedName;
         const currentTempC = weatherData[0]?.Temperature?.Metric?.Value;
         const currentTempF = weatherData[0]?.Temperature?.Imperial?.Value;
         const feelsLikeC = weatherData[0]?.RealFeelTemperature?.Metric?.Value;
@@ -213,7 +214,8 @@ export default function Page({ params }) {
                     <div className="flex flex-col items-center text-center mt-auto mb-auto"
                         style={{ marginTop: '45px' }}
                     >
-                        <h2 className="font-bold text-3xl">{city}</h2>
+                        <h2 className="font-bold text-3xl">{parentCity}</h2>
+                        <h4 className="font-bold text-xl">({city})</h4>
                         <h3 className="font-extrabold text-5xl">{currentTempC}°C</h3>
                         <h4 className="font-bold text-3xl">{currentTempF}F</h4>
                         <p className="text-lg">
