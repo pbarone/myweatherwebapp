@@ -145,16 +145,18 @@ export default function Page({ params }) {
 
         let backgroundImageURL = imageUrl;
         let author = "Paolo Barone";
+        let authorLink = "https://unsplash.com/@pbarone";
 
         if (backgroundImage != null) {
 
             backgroundImageURL = backgroundImage.urls.full;
             author = backgroundImage.user.name;
+            authorLink = backgroundImage.user.links.html;
         } 
 
         return (
             <section
-                className="grid h-screen w-screen place-items-center bg-cover bg-center bg-no-repeat"
+                className="bordergrid h-screen w-screen place-items-center bg-cover bg-center bg-no-repeat"
                 style={{
                     backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.0)), url(${backgroundImageURL})`,
                 }}
@@ -232,10 +234,11 @@ export default function Page({ params }) {
                 </div>
 
                 {/* Photo credit */}
+                
                 <div
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 text-xs text-white -rotate-90"
+                    className="absolute right-0 top-1/2 transform translate-x-16  -translate-y-1/2 text-xs text-white -rotate-90"
                 >
-                    Photo (c) {author}
+                    <a href={backgroundImageURL} target="_blank" rel="noopener noreferrer"  className="text-white underline">Photo</a> by <a target="_blank" rel="noopener noreferrer"  className="text-white underline" href={authorLink}>{author}</a> on <a className="text-white underline" target="_blank" rel="noopener noreferrer" href="https://unsplash.com/?utm_source=my_weather_app&utm_medium=referral">Unsplash</a>
                 </div>
             </section>
         );
