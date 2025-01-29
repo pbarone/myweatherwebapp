@@ -76,8 +76,10 @@ export default function Page({ params }) {
     };
 
 
-    const fetchBackgroundImage = async (cityName) => {
+    const fetchBackgroundImage = async (cityData) => {
+        const cityName = cityData?.ParentCity?.LocalizedName || cityData?.LocalizedName + " " + cityData?.Country?.LocalizedName;
         const apiUrl = `https://api.unsplash.com/photos/random?query=${encodeURIComponent(cityName)}&orientation=portrait`;
+        
         const authorizationToken = process.env.NEXT_PUBLIC_UNSPLASH_API_KEY;
         if (!cityName) return;
         try {
@@ -86,7 +88,7 @@ export default function Page({ params }) {
                     Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH_API_KEY}`, // Provide your Unsplash access key
                 },
             });
-
+            
             if (!response.ok) {
                 setBackgroundImage(null)
                 return;
@@ -103,6 +105,7 @@ export default function Page({ params }) {
     const fetchWeatherData = async (cityKey) => {
         try {
             const weatherURL = `https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY}&details=true&language=en-us`;
+            
             const response = await fetch(weatherURL);
             const data = await response.json();
             setWeatherData(data);
@@ -117,7 +120,7 @@ export default function Page({ params }) {
     }, []);
 
     useEffect(() => {
-        fetchBackgroundImage(cityData?.ParentCity?.LocalizedName)
+        fetchBackgroundImage(cityData)
     }, [cityData]);
 
 
@@ -133,7 +136,7 @@ export default function Page({ params }) {
     if (weatherData) {
 
         const city = cityData?.LocalizedName;
-        const parentCity = cityData?.ParentCity?.LocalizedName;
+        const parentCity = cityData?.ParentCity?.LocalizedName || city;
         const currentTempC = weatherData[0]?.Temperature?.Metric?.Value;
         const currentTempF = weatherData[0]?.Temperature?.Imperial?.Value;
         const feelsLikeC = weatherData[0]?.RealFeelTemperature?.Metric?.Value;
@@ -146,12 +149,15 @@ export default function Page({ params }) {
         let backgroundImageURL = imageUrl;
         let author = "Paolo Barone";
         let authorLink = "https://unsplash.com/@pbarone";
+        let imagePageLink = imageUrl
 
         if (backgroundImage != null) {
 
             backgroundImageURL = backgroundImage.urls.full;
             author = backgroundImage.user.name;
             authorLink = backgroundImage.user.links.html;
+            imagePageLink = backgroundImage.links.html
+
         } 
 
         return (
@@ -217,7 +223,8 @@ export default function Page({ params }) {
                         style={{ marginTop: '45px' }}
                     >
                         <h2 className="font-bold text-3xl">{parentCity}</h2>
-                        <h4 className="font-bold text-xl">({city})</h4>
+                        <h4 className="font-normal text-l">{city}</h4>
+                        <br />
                         <h3 className="font-extrabold text-5xl">{currentTempC}°C</h3>
                         <h4 className="font-bold text-3xl">{currentTempF}F</h4>
                         <p className="text-lg">
@@ -238,7 +245,7 @@ export default function Page({ params }) {
                 <div
                     className="absolute right-0 top-1/2 transform translate-x-16  -translate-y-1/2 text-xs text-white -rotate-90"
                 >
-                    <a href={backgroundImageURL} target="_blank" rel="noopener noreferrer"  className="text-white underline">Photo</a> by <a target="_blank" rel="noopener noreferrer"  className="text-white underline" href={authorLink}>{author}</a> on <a className="text-white underline" target="_blank" rel="noopener noreferrer" href="https://unsplash.com/?utm_source=my_weather_app&utm_medium=referral">Unsplash</a>
+                    <a href={imagePageLink} target="_blank" rel="noopener noreferrer"  className="text-white underline">Photo</a> by <a target="_blank" rel="noopener noreferrer"  className="text-white underline" href={authorLink}>{author}</a> on <a className="text-white underline" target="_blank" rel="noopener noreferrer" href="https://unsplash.com/?utm_source=my_weather_app&utm_medium=referral">Unsplash</a>
                 </div>
             </section>
         );

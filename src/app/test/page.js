@@ -10,7 +10,7 @@ const Page = () => {
 
     useEffect(() => {
         const getLocation = () => {
-            console.log("PIPPO");
+            
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     async (position) => {

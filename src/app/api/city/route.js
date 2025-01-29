@@ -5,18 +5,26 @@ export async function GET(request) {
 
     try {
         // Extract and validate latitude
-        const latitude = parseFloat(searchParams.get('latitude'));
-        if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+        //const latitude = parseFloat(searchParams.get('latitude'));
+
+        let coords = {latitude: parseFloat(searchParams.get('latitude')), longitude:parseFloat(searchParams.get('longitude'))};
+        //console.log(coords);
+
+        // to debug location search set this to any coordinates
+        // coords = {latitude: 20.719350, longitude: -2.772628};
+
+        
+        if (isNaN(coords.latitude) || coords.latitude < -90 || coords.latitude > 90) {
             throw new Error('Invalid latitude. Latitude must be a number between -90 and 90.');
         }
 
         // Extract and validate longitude
-        const longitude = parseFloat(searchParams.get('longitude'));
-        if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+        //const longitude = parseFloat(searchParams.get('longitude'));
+        if (isNaN(coords.longitude) || coords.longitude < -180 || coords.longitude > 180) {
             throw new Error('Invalid longitude. Longitude must be a number between -180 and 180.');
         }
 
-        const cityURL = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${process.env.ACCUWEATHER_API_KEY}&q=${latitude}%2C${longitude}&details=true`;
+        const cityURL = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${process.env.ACCUWEATHER_API_KEY}&q=${coords.latitude}%2C${coords.longitude}&details=true`;
         const response = await fetch(cityURL);
         const data = await response.json();
 
