@@ -1,12 +1,12 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
+import WeatherIcon from "./components/weatherIcon";
 
 export default function Page({ params }) {
     // fallback image if unsplash API limits are hit
     const imageUrl = "https://img.freepik.com/free-vector/modern-city-quay-night-landscape-cartoon-vector_1441-2954.jpg";
 
-    const [postId, setPostId] = useState(null);
 
     const [location, setLocation] = useState(null);
     const [cityData, setCityData] = useState(null);
@@ -36,13 +36,7 @@ export default function Page({ params }) {
         setTime(`${hours}:${minutes}`);
     }, []);
 
-    useEffect(() => {
-        async function unwrapParams() {
-            const resolvedParams = await params;
-            setPostId(resolvedParams?.postId);
-        }
-        unwrapParams();
-    }, [params]);
+
 
 
     const fetchCityData = async (latitude, longitude) => {
@@ -141,7 +135,7 @@ export default function Page({ params }) {
         const currentTempF = weatherData[0]?.Temperature?.Imperial?.Value;
         const feelsLikeC = weatherData[0]?.RealFeelTemperature?.Metric?.Value;
         const feelsLikeF = weatherData[0]?.RealFeelTemperature?.Imperial?.Value;
-        const weatehrText = weatherData[0]?.WeatherText
+        const weatherText = weatherData[0]?.WeatherText
         const sunrise = "07:20";
         const sunset = "16:40";
 
@@ -230,13 +224,14 @@ export default function Page({ params }) {
                         <p className="text-lg">
                             Feels like {feelsLikeC}°C / {feelsLikeF}F
                         </p>
-                        <p className='text-sm'>{weatehrText}</p>
+                        
+                        <WeatherIcon weatherData={weatherData[0]} />
                     </div>
 
                     {/* Bottom Section: Weather Description */}
                     <div className="text-center pt-3 border-t flex justify-between px-4">
-                        <p className="text-lg font-bold">{weatehrText}</p>
-                        <p className="text-lg font-bold">{weatehrText}</p>
+                        <p className="text-lg font-bold">{weatherText}</p>
+                        <p className="text-lg font-bold">{weatherText}</p>
                     </div>
                 </div>
 

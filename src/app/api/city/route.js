@@ -11,7 +11,7 @@ export async function GET(request) {
         //console.log(coords);
 
         // to debug location search set this to any coordinates
-        // coords = {latitude: 20.719350, longitude: -2.772628};
+//         coords = {latitude: 20.719350, longitude: -2.772628};
 
         
         if (isNaN(coords.latitude) || coords.latitude < -90 || coords.latitude > 90) {
